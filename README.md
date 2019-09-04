@@ -7,7 +7,7 @@ From [LCIMB](about-lcimb/), in collaboration with the [Storrie lab](https://phys
 
 **TODO**: Adapt a detailed description of the dataset, the segmentation task, and performance metrics from the statement of work document.
 
-![An example of an SBF-SEM platelet dataset and its semantic segmentation](media/figure1_tall.png)
+![An example of an SBF-SEM platelet dataset and its semantic segmentation](media/figure1_tall_noborder.png)
 
 **Download**: Coming soon!
 
