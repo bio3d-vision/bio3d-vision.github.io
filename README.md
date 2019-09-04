@@ -3,7 +3,7 @@ Segmentation datasets from 3D biological microscopy, organized by [LCIMB](about-
 
 ## Platelet
 
-**Download**: [Download here](https://www.dropbox.com/s/ezdz9bfuo4qdle2/lcimb-platelet.zip?dl=0) (1.1 GB)
+**Download**: [Download here](https://www.dropbox.com/s/c0jg8biqq66w32r/platelet-lcimb.zip?dl=0) (98.4 MB)
 
 From [LCIMB](about-lcimb/), in collaboration with the [Storrie lab](https://physiology.uams.edu/faculty/brian-storrie/).
 
