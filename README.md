@@ -9,6 +9,8 @@ From [LCIMB](about-lcimb/), in collaboration with the [Storrie lab](https://phys
 
 ![An example of an SBF-SEM platelet dataset and its semantic segmentation](media/figure1_tall_noborder.png)
 
-**Download**: Coming soon!
+**Download**: [Download here](https://www.dropbox.com/s/ezdz9bfuo4qdle2/lcimb-platelet.zip?dl=0)
+
+**TODO** Add a better description of the data files that are downloaded.
 
 ---
