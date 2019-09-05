@@ -29,30 +29,25 @@ Alternately, image and label files can be downloaded separately below.
 
 Created by [LCIMB](about-lcimb/) in collaboration with the [Storrie lab](https://physiology.uams.edu/faculty/brian-storrie/). The **platelet** dataset contains two 3D images of human platelets, as well as instance and semantic segmentations of those two image volumes.
 
-This data has been reviewed and cleared for public release, and contains no PII or PHI. All files use a multipage uint16 TIF format. A 3D image with size [Z, X, Y] is saved as Z pages of size [X, Y]. Image voxels are approximately 40x10x10 nm^3. 
+This data has been reviewed by NIBIB and cleared for public release, and contains no PII or PHI. All files use a multipage uint16 TIF format. A 3D image with size [Z, X, Y] is saved as Z pages of size [X, Y]. Image voxels are approximately 40x10x10 nm^3. 
 
 ### Images
 
-The **platelet** image volumes were acquired by a [Gatan 3View](https://www.gatan.com/products/sem-imaging-spectroscopy/3view-system) serial block-face scanning electron microscope (SBF-SEM) by members of LCIMB. 
-
-
-**50-images.tif**
-
 ![50-images.tif, Z=0](media/50-images.png)
 
-A 50x800x800 grayscale TIF volume. Image data acquired by a SBF-SEM. 
+The **platelet** image volumes were acquired by a [Gatan 3View](https://www.gatan.com/products/sem-imaging-spectroscopy/3view-system) serial block-face scanning electron microscope (SBF-SEM) by members of LCIMB. 
 
-**24-images.tif**
-
-![24-images.tif, Z=0](media/24-images.png)
-
-A 24x800x800 grayscale TIF volume. Image data acquired by a SBF-SEM.
+Image files are: 
+  - **50-images.tif**, a 50x800x800 SBF-SEM image saved as a grayscale TIF.
+  - **24-images.tif**, a 24x800x800 SBF-SEM image saved as a grayscale TIF.
 
 ### Labels
 
 Label TIF files assign a color to each voxel in a corresponding image file. The colors correspond to labels, either object classes for semantic labels or unique object ids for instance labels.
 
 #### Semantic labels
+
+![50-semantic.tif, Z=0](media/50-semantic.png)
 
 Semantic label files classify each image voxel into one of seven classes, indexed from 0-6:
 
@@ -66,14 +61,14 @@ Semantic label files classify each image voxel into one of seven classes, indexe
 | 5 | Red | Dense granule body |
 | 6 | Purple | Dense granule core |
 
-**50-semantic.tif**
+Semantic label files are:
+  - **50-semantic.tif**: a 50x800x800 semantic segmentation of _50-images.tif_, saved as an RGB TIF.
+  - **24-semantic.tif**: A 24x800x800 semantic segmentation of _24-images.tif_, saved as an RGB TIF.
 
-![50-semantic.tif, Z=0](media/50-semantic.png)
+#### 2D instance labels
 
-A 50x800x800 RGB TIF volume. Semantic segmentation of _50-images.tif_.
+Coming up!
 
-**24-semantic.tif**
+#### 3D instance labels
 
-![24-semantic.tif, Z=0](media/24-semantic.png)
-
-A 24x800x800 RGB TIF volume. Semantic segmentation of _24-images.tif_.
+Coming up!
