@@ -2,7 +2,7 @@ Segmentation datasets from 3D biological microscopy, organized by [LCIMB](about-
 
 ---
 
-# Platelet
+# platelet-em
 
 ![](media/platelet_banner_tall.png)
 
@@ -14,8 +14,7 @@ All image and label files can be downloaded together, or they can be downloaded 
 
 [Download images and labels](https://www.dropbox.com/s/lo6i7v2mc9z2wft/images-and-labels.zip?dl=1) (95.8 MB)
 
-\s\s
-\s\s
+---
 
 #### Images only
 
@@ -31,4 +30,4 @@ All image and label files can be downloaded together, or they can be downloaded 
 
 ### Description
 
-[Click here](platelet-description.html) for a detailed description of the **platelet** dataset.
+[Click here](platelet-description.html) for a detailed description of the **platelet-em** dataset.

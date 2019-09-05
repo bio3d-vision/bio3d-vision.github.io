@@ -1,17 +1,17 @@
 ---
 layout: page
-title: 'Platelet dataset'
+title: 'platelet-em dataset'
 ---
 
-Created by [LCIMB](about-lcimb/) in collaboration with the [Storrie lab](https://physiology.uams.edu/faculty/brian-storrie/). The **platelet** dataset contains two 3D images of human platelets, as well as instance and semantic segmentations of those two image volumes.
+Created by [LCIMB](about-lcimb/) in collaboration with the [Storrie lab](https://physiology.uams.edu/faculty/brian-storrie/). The **platelet-em** dataset contains two 3D scanning electron microscope (EM) images of human platelets, as well as instance and semantic segmentations of those two image volumes.
 
-This data has been reviewed by NIBIB and cleared for public release, and contains no PII or PHI. All files use a multipage uint16 TIF format. A 3D image with size [Z, X, Y] is saved as Z pages of size [X, Y]. Image voxels are approximately 40x10x10 nm<sup>3</sup>. 
+This data has been reviewed by NIBIB, contains no PII or PHI, and is cleared for public release. All files use a multipage uint16 TIF format. A 3D image with size [Z, X, Y] is saved as Z pages of size [X, Y]. Image voxels are approximately 40x10x10 nm<sup>3</sup>. 
 
 ## Image files
 
 ![50-images.tif, Z=0](media/50-images.png)
 
-The **platelet** image volumes were acquired by a [Gatan 3View](https://www.gatan.com/products/sem-imaging-spectroscopy/3view-system) serial block-face scanning electron microscope (SBF-SEM) by members of LCIMB. 
+The **platelet** image volumes were acquired by a [Gatan 3View](https://www.gatan.com/products/sem-imaging-spectroscopy/3view-system) serial block-face scanning electron microscope (SBF-SEM). 
 
 Image files are: 
 
@@ -22,6 +22,8 @@ Image files are:
 ## Label files
 
 Label TIF files assign a color to each voxel in a corresponding image file. The colors correspond to labels, either object classes for semantic labels or unique object ids for instance labels.
+
+---
 
 #### Semantic labels
 
@@ -44,6 +46,8 @@ Semantic label files are:
 - **50-semantic.tif**: A 50x800x800 semantic segmentation of _50-images.tif_, saved as an RGB TIF.
 
 - **24-semantic.tif**: A 24x800x800 semantic segmentation of _24-images.tif_, saved as an RGB TIF.
+
+---
 
 #### Instance labels
 

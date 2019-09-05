@@ -4,14 +4,14 @@ title: 'Platelet dataset description'
 use-site-title: false
 ---
 
-<p>Created by <a href="about-lcimb/">LCIMB</a> in collaboration with the <a href="https://physiology.uams.edu/faculty/brian-storrie/">Storrie lab</a>. The <strong>platelet</strong> dataset contains two 3D images of human platelets, as well as instance and semantic segmentations of those two image volumes.</p>
-<p>This data has been reviewed by NIBIB and cleared for public release, and contains no PII or PHI. All files use a multipage uint16 TIF format. A 3D image with size [Z, X, Y] is saved as Z pages of size [X, Y]. Image voxels are approximately 40x10x10 nm<sup>3</sup>.</p>
+<p>Created by <a href="about-lcimb/">LCIMB</a> in collaboration with the <a href="https://physiology.uams.edu/faculty/brian-storrie/">Storrie lab</a>. The <strong>platelet-em</strong> dataset contains two 3D scanning electron microscope (EM) images of human platelets, as well as instance and semantic segmentations of those two image volumes.</p>
+<p>This data has been reviewed by NIBIB, contains no PII or PHI, and is cleared for public release. All files use a multipage uint16 TIF format. A 3D image with size [Z, X, Y] is saved as Z pages of size [X, Y]. Image voxels are approximately 40x10x10 nm<sup>3</sup>.</p>
 <h2 id="image-files">Image files</h2>
 <div class="figure">
 <img src="media/50-images.png" alt="50-images.tif, Z=0" />
 <p class="caption">50-images.tif, Z=0</p>
 </div>
-<p>The <strong>platelet</strong> image volumes were acquired by a <a href="https://www.gatan.com/products/sem-imaging-spectroscopy/3view-system">Gatan 3View</a> serial block-face scanning electron microscope (SBF-SEM) by members of LCIMB.</p>
+<p>The <strong>platelet</strong> image volumes were acquired by a <a href="https://www.gatan.com/products/sem-imaging-spectroscopy/3view-system">Gatan 3View</a> serial block-face scanning electron microscope (SBF-SEM).</p>
 <p>Image files are:</p>
 <ul>
 <li><p><strong>50-images.tif</strong>, a 50x800x800 SBF-SEM image saved as a grayscale TIF.</p></li>
@@ -19,6 +19,7 @@ use-site-title: false
 </ul>
 <h2 id="label-files">Label files</h2>
 <p>Label TIF files assign a color to each voxel in a corresponding image file. The colors correspond to labels, either object classes for semantic labels or unique object ids for instance labels.</p>
+<hr />
 <h4 id="semantic-labels">Semantic labels</h4>
 <div class="figure">
 <img src="media/50-semantic.png" alt="50-semantic.tif, Z=0" />
@@ -68,6 +69,7 @@ use-site-title: false
 <li><p><strong>50-semantic.tif</strong>: A 50x800x800 semantic segmentation of <em>50-images.tif</em>, saved as an RGB TIF.</p></li>
 <li><p><strong>24-semantic.tif</strong>: A 24x800x800 semantic segmentation of <em>24-images.tif</em>, saved as an RGB TIF.</p></li>
 </ul>
+<hr />
 <h4 id="instance-labels">Instance labels</h4>
 <div class="figure">
 <img src="media/50-instance-cell.png" alt="50-instance-cell-2d.tif, Z=0" />
