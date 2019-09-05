@@ -6,17 +6,17 @@ Segmentation datasets from 3D biological microscopy, organized by [LCIMB](about-
 
 ![](media/platelet_banner.png)
 
-## Download
+### Download
 
 All image and label files can be downloaded as one archive [here](https://www.dropbox.com/s/c0jg8biqq66w32r/platelet-lcimb.zip?dl=1) (98.4 MB)
 
 Alternately, image and label files can be downloaded separately:
 
-### Images
+#### Images
 
 [Download images](https://put.real.link.here) (90.9 MB)
 
-### Labels
+#### Labels
 
 [Download semantic labels](https://www.dropbox.com/s/p4iugak20g8uccd/labels-semantic.zip?dl=1) (2.1 MB)
 
@@ -26,6 +26,6 @@ Alternately, image and label files can be downloaded separately:
 
 ---
 
-## Description
+### Description
 
 [Click here](platelet-description.html) for a detailed description of the **platelet** dataset.
