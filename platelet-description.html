@@ -69,7 +69,10 @@ use-site-title: false
 <li><p><strong>24-semantic.tif</strong>: A 24x800x800 semantic segmentation of <em>24-images.tif</em>, saved as an RGB TIF.</p></li>
 </ul>
 <h4 id="instance-labels">Instance labels</h4>
-<p>[50-instance-cell-2d.tif and 50-instance-organelle-2d.tif, Z=0]</p>
+<div class="figure">
+<img src="50-instance.png" alt="50-instance-cell-2d.tif and 50-instance-organelle-2d.tif, Z=0" />
+<p class="caption">50-instance-cell-2d.tif and 50-instance-organelle-2d.tif, Z=0</p>
+</div>
 <p>Instance labels come in four varieties: 2D and 3D, cell and organelle. <em>Cell</em> instance labels assign a unique id to each cell in an image volume. <em>Organelle</em> instance labels assign a unique id to each organelle in an image volume.</p>
 <p><strong>2D instance labels</strong></p>
 <p>IDs are assigned to distince object cross-sections within 2D image windows. Tags for cross-sections of the same 3D object are not linked between different 2D image windows.</p>
