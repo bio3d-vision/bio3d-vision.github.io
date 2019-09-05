@@ -6,6 +6,14 @@ Segmentation datasets from 3D biological microscopy. Organized by [LCIMB](about-
 
 ![](media/platelet_banner_tall.png)
 
+![](media/3d/50-image.png)
+
+![](media/3d/50-semantic.png)
+
+![](media/3d/50-instance-cell.png)
+
+![](media/3d/50-instance-organelle.png)
+
 ### Download
 
 All image and label files can be downloaded together, or they can be downloaded separately.
