@@ -47,7 +47,7 @@ Semantic label files are:
 
 #### Instance labels
 
-![50-instance-cell-2d.tif and 50-instance-organelle-2d.tif, Z=0](50-instance.png)
+![50-instance-cell-2d.tif and 50-instance-organelle-2d.tif, Z=0](media/50-instance.png)
 
 Instance labels come in four varieties: 2D and 3D, cell and organelle. _Cell_ instance labels assign a unique id to each cell in an image volume. _Organelle_ instance labels assign a unique id to each organelle in an image volume.
 
