@@ -28,4 +28,4 @@ Alternately, image and label files can be downloaded separately:
 
 ## Description
 
-[Click here](./platelet-description.md) for a detailed description of the **platelet** dataset.
+[Click here](/platelet-description.md) for a detailed description of the **platelet** dataset.
