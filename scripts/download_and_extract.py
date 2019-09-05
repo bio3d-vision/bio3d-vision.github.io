@@ -113,7 +113,7 @@ def _is_zip(filename):
     return filename.endswith(".zip")
 
 
-def extract_archive(from_path, to_path=None, remove_finished=False):
+def extract_archive(from_path, to_path=None, remove_finished=True):
     if to_path is None:
         to_path = os.path.dirname(from_path)
 
@@ -137,19 +137,21 @@ def extract_archive(from_path, to_path=None, remove_finished=False):
         os.remove(from_path)
 
 
-def download_and_extract_archive(url, download_root, extract_root=None, filename=None,
-                                 md5=None, remove_finished=False):
+def download_and_extract_archive(url, 
+                                 download_root,
+                                 filename = None,
+                                 md5 = None, 
+                                 remove_finished = True):
+
     download_root = os.path.expanduser(download_root)
-    if extract_root is None:
-        extract_root = download_root
     if not filename:
         filename = os.path.basename(url)
 
     download_url(url, download_root, filename, md5)
 
     archive = os.path.join(download_root, filename)
-    print("Extracting {} to {}".format(archive, extract_root))
-    extract_archive(archive, extract_root, remove_finished)
+    print("Extracting {} to {}".format(archive, download_root))
+    extract_archive(archive, download_root, remove_finished)
 
 if __name__=="__main__":
     download_and_extract_archive(BIO3D_URL, '.', filename=BIO3D_FILENAME)

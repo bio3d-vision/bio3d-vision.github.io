@@ -51,30 +51,16 @@ Semantic label files are:
 
 ![50-instance-organelle-2d.tif, Z=0](media/50-instance-organelle.png)
 
-Instance labels come in four varieties: 2D and 3D, cell and organelle. _Cell_ instance labels assign a unique id to each cell in an image volume. _Organelle_ instance labels assign a unique id to each organelle in an image volume.
-
-**2D instance labels**
-
-IDs are assigned to distinct object cross-sections within 2D image windows. Tags for cross-sections of the same 3D object are not linked between different 2D image windows.
-
-**3D instance labels**
+Instance labels are separated into two label files per image: cell and organelle. _Cell_ instance labels assign a unique id to each cell in an image volume. _Organelle_ instance labels assign a unique id to each organelle in an image volume. 
 
 IDs are assigned to distinct objects within the entire 3D image volume. Tags for cross-sections of the same 3D object are the same between different 2D image windows.
 
 Instance label files are:
 
-- **50-instance-cell-2d.tif**: A 50x800x800 2D instance segmentation of cells in _50-images.tif_, saved as an RGB TIF.
+- **50-instance-cell.tif**: A 50x800x800 instance segmentation of cells in _50-images.tif_, saved as an RGB TIF.
 
-- **50-instance-organelle-2d.tif**: A 50x800x800 2D instance segmentation of organelles in _50-images.tif_, saved as an RGB TIF.
+- **50-instance-organelle.tif**: A 50x800x800 instance segmentation of organelles in _50-images.tif_, saved as an RGB TIF.
 
-- **50-instance-cell-3d.tif**: A 50x800x800 3D instance segmentation of cells in _50-images.tif_, saved as an RGB TIF.
+- **24-instance-cell.tif**: A 24x800x800 instance segmentation of cells in _24-images.tif_, saved as an RGB TIF.
 
-- **50-instance-organelle-3d.tif**: A 50x800x800 3D instance segmentation of organelles in _50-images.tif_, saved as an RGB TIF.
-
-- **24-instance-cell-2d.tif**: A 24x800x800 2D instance segmentation of cells in _24-images.tif_, saved as an RGB TIF.
-
-- **24-instance-organelle-2d.tif**: A 24x800x800 2D instance segmentation of organelles in _24-images.tif_, saved as an RGB TIF.
-
-- **24-instance-cell-3d.tif**: A 24x800x800 3D instance segmentation of cells in _24-images.tif_, saved as an RGB TIF.
-
-- **24-instance-organelle-3d.tif**: A 24x800x800 3D instance segmentation of organelles in _24-images.tif_, saved as an RGB TIF.
+- **24-instance-organelle.tif**: A 24x800x800 instance segmentation of organelles in _24-images.tif_, saved as an RGB TIF.

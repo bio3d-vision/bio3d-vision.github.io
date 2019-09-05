@@ -8,21 +8,24 @@ Segmentation datasets from 3D biological microscopy, organized by [LCIMB](about-
 
 ### Download
 
-All image and label files can be downloaded as one archive [here](https://www.dropbox.com/s/c0jg8biqq66w32r/platelet-lcimb.zip?dl=1) (98.4 MB)
+All image and label files can be downloaded together, or they can be downloaded separately.
 
-Alternately, image and label files can be downloaded separately:
+#### All
 
-#### Images
+[Download images and labels](https://www.dropbox.com/s/lo6i7v2mc9z2wft/images-and-labels.zip?dl=1) (95.8 MB)
 
-[Download images](https://put.real.link.here) (90.9 MB)
+\s\s
+\s\s
 
-#### Labels
+#### Images only
+
+[Download images](https://www.dropbox.com/s/u592kqjbjpvhq8n/images.zip?dl=0) (90.9 MB)
+
+#### Labels only
 
 [Download semantic labels](https://www.dropbox.com/s/p4iugak20g8uccd/labels-semantic.zip?dl=1) (2.1 MB)
 
-[Download 2d instance labels](https://www.dropbox.com/s/janmagx6iibybtk/labels-instance-2d.zip?dl=1) (2.7 MB)
-
-[Download 3d instance labels](https://www.dropbox.com/s/n3jry3nt4pyn7d7/labels-instance-3d.zip?dl=1) (2.6 MB)
+[Download instance labels](https://www.dropbox.com/s/s1asybvd3vauhiy/labels-instance.zip?dl=1) (2.6 MB)
 
 ---
 
