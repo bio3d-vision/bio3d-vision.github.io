@@ -1,0 +1,82 @@
+<p>Created by <a href="about-lcimb/">LCIMB</a> in collaboration with the <a href="https://physiology.uams.edu/faculty/brian-storrie/">Storrie lab</a>. The <strong>platelet</strong> dataset contains two 3D images of human platelets, as well as instance and semantic segmentations of those two image volumes.</p>
+<p>This data has been reviewed by NIBIB and cleared for public release, and contains no PII or PHI. All files use a multipage uint16 TIF format. A 3D image with size [Z, X, Y] is saved as Z pages of size [X, Y]. Image voxels are approximately 40x10x10 nm<sup>3</sup>.</p>
+<h2 id="image-files">Image files</h2>
+<div class="figure">
+<img src="media/50-images.png" alt="50-images.tif, Z=0" />
+<p class="caption">50-images.tif, Z=0</p>
+</div>
+<p>The <strong>platelet</strong> image volumes were acquired by a <a href="https://www.gatan.com/products/sem-imaging-spectroscopy/3view-system">Gatan 3View</a> serial block-face scanning electron microscope (SBF-SEM) by members of LCIMB.</p>
+<p>Image files are:</p>
+<ul>
+<li><p><strong>50-images.tif</strong>, a 50x800x800 SBF-SEM image saved as a grayscale TIF.</p></li>
+<li><p><strong>24-images.tif</strong>, a 24x800x800 SBF-SEM image saved as a grayscale TIF.</p></li>
+</ul>
+<h2 id="label-files">Label files</h2>
+<p>Label TIF files assign a color to each voxel in a corresponding image file. The colors correspond to labels, either object classes for semantic labels or unique object ids for instance labels.</p>
+<h4 id="semantic-labels">Semantic labels</h4>
+<div class="figure">
+<img src="media/50-semantic.png" alt="50-semantic.tif, Z=0" />
+<p class="caption">50-semantic.tif, Z=0</p>
+</div>
+<p>Semantic label files classify each image voxel into one of seven classes, indexed from 0-6:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Index</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>Dark Blue</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td>Cyan</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td>Green</td>
+</tr>
+<tr class="odd">
+<td>4</td>
+<td>Yellow</td>
+</tr>
+<tr class="even">
+<td>5</td>
+<td>Red</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>Purple</td>
+</tr>
+</tbody>
+</table>
+<p>Semantic label files are:</p>
+<ul>
+<li><p><strong>50-semantic.tif</strong>: A 50x800x800 semantic segmentation of <em>50-images.tif</em>, saved as an RGB TIF.</p></li>
+<li><p><strong>24-semantic.tif</strong>: A 24x800x800 semantic segmentation of <em>24-images.tif</em>, saved as an RGB TIF.</p></li>
+</ul>
+<h4 id="instance-labels">Instance labels</h4>
+<p>[50-instance-cell-2d.tif and 50-instance-organelle-2d.tif, Z=0]</p>
+<p>Instance labels come in four varieties: 2D and 3D, cell and organelle. <em>Cell</em> instance labels assign a unique id to each cell in an image volume. <em>Organelle</em> instance labels assign a unique id to each organelle in an image volume.</p>
+<p><strong>2D instance labels</strong></p>
+<p>IDs are assigned to distince object cross-sections within 2D image windows. Tags for cross-sections of the same 3D object are not linked between different 2D image windows.</p>
+<p><strong>3D instance labels</strong></p>
+<p>Tags are assigned to distince objects within the entire 3D image volume. Tags for cross-sections of the same 3D object are the same between different 2D image windows.</p>
+<p>Instance label files are:</p>
+<ul>
+<li><p><strong>50-instance-cell-2d.tif</strong>: A 50x800x800 2D instance segmentation of cells in <em>50-images.tif</em>, saved as an RGB TIF.</p></li>
+<li><p><strong>50-instance-organelle-2d.tif</strong>: A 50x800x800 2D instance segmentation of organelles in <em>50-images.tif</em>, saved as an RGB TIF.</p></li>
+<li><p><strong>50-instance-cell-3d.tif</strong>: A 50x800x800 3D instance segmentation of cells in <em>50-images.tif</em>, saved as an RGB TIF.</p></li>
+<li><p><strong>50-instance-organelle-3d.tif</strong>: A 50x800x800 3D instance segmentation of organelles in <em>50-images.tif</em>, saved as an RGB TIF.</p></li>
+<li><p><strong>24-instance-cell-2d.tif</strong>: A 24x800x800 2D instance segmentation of cells in <em>24-images.tif</em>, saved as an RGB TIF.</p></li>
+<li><p><strong>24-instance-organelle-2d.tif</strong>: A 24x800x800 2D instance segmentation of organelles in <em>24-images.tif</em>, saved as an RGB TIF.</p></li>
+<li><p><strong>24-instance-cell-3d.tif</strong>: A 24x800x800 3D instance segmentation of cells in <em>24-images.tif</em>, saved as an RGB TIF.</p></li>
+<li><p><strong>24-instance-organelle-3d.tif</strong>: A 24x800x800 3D instance segmentation of organelles in <em>24-images.tif</em>, saved as an RGB TIF.</p></li>
+</ul>
