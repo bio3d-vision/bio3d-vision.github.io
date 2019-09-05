@@ -39,8 +39,8 @@ This data has been reviewed by NIBIB and cleared for public release, and contain
 The **platelet** image volumes were acquired by a [Gatan 3View](https://www.gatan.com/products/sem-imaging-spectroscopy/3view-system) serial block-face scanning electron microscope (SBF-SEM) by members of LCIMB. 
 
 Image files are: 
-  - **50-images.tif**, a 50x800x800 SBF-SEM image saved as a grayscale TIF.
-  - **24-images.tif**, a 24x800x800 SBF-SEM image saved as a grayscale TIF.
+- **50-images.tif**, a 50x800x800 SBF-SEM image saved as a grayscale TIF.
+- **24-images.tif**, a 24x800x800 SBF-SEM image saved as a grayscale TIF.
 
 ### Labels
 
@@ -63,8 +63,8 @@ Semantic label files classify each image voxel into one of seven classes, indexe
 | 6 | Purple | Dense granule core |
 
 Semantic label files are:
-  - **50-semantic.tif**: a 50x800x800 semantic segmentation of _50-images.tif_, saved as an RGB TIF.
-  - **24-semantic.tif**: A 24x800x800 semantic segmentation of _24-images.tif_, saved as an RGB TIF.
+- **50-semantic.tif**: a 50x800x800 semantic segmentation of _50-images.tif_, saved as an RGB TIF.
+- **24-semantic.tif**: A 24x800x800 semantic segmentation of _24-images.tif_, saved as an RGB TIF.
 
 #### 2D instance labels
 
