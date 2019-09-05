@@ -4,7 +4,7 @@ Segmentation datasets from 3D biological microscopy, organized by [LCIMB](about-
 
 # Platelet
 
-![](media/platelet_banner.png)
+![](media/platelet_banner_tall.png)
 
 ### Download
 
