@@ -1,7 +1,5 @@
 #!/usr/bin
 
-pandoc platelet-description.md -o platelet-description.html
-
 bash makeindex.sh
 
 git add -A .
