@@ -16,7 +16,6 @@ Segmentation datasets from 3D biological microscopy. Organized by [LCIMB](about-
 
 ### Download
 
-All image and label files can be downloaded together, or they can be downloaded separately.
 
 #### All
 
