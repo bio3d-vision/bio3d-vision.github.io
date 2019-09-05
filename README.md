@@ -1,4 +1,9 @@
-# bio3d-vision.github.io
+---
+layout: page
+title: bio3d-vision.github.io
+subtitle:
+---
+
 Segmentation datasets from 3D biological microscopy, organized by [LCIMB](about-lcimb/), a part of NIH/NIBIB.
 
 ---
