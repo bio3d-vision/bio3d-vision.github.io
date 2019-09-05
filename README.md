@@ -25,6 +25,8 @@ Alternately, image and label files can be downloaded separately:
 
 [Download 3d instance labels](https://www.dropbox.com/s/n3jry3nt4pyn7d7/labels-instance-3d.zip?dl=1) (2.6 MB)
 
+---
+
 ## Description
 
 Created by [LCIMB](about-lcimb/) in collaboration with the [Storrie lab](https://physiology.uams.edu/faculty/brian-storrie/). The **platelet** dataset contains two 3D images of human platelets, as well as instance and semantic segmentations of those two image volumes.
