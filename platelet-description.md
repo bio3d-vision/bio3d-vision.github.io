@@ -55,11 +55,11 @@ Instance labels come in four varieties: 2D and 3D, cell and organelle. _Cell_ in
 
 **2D instance labels**
 
-IDs are assigned to distince object cross-sections within 2D image windows. Tags for cross-sections of the same 3D object are not linked between different 2D image windows.
+IDs are assigned to distinct object cross-sections within 2D image windows. Tags for cross-sections of the same 3D object are not linked between different 2D image windows.
 
 **3D instance labels**
 
-Tags are assigned to distince objects within the entire 3D image volume. Tags for cross-sections of the same 3D object are the same between different 2D image windows.
+IDs are assigned to distinct objects within the entire 3D image volume. Tags for cross-sections of the same 3D object are the same between different 2D image windows.
 
 Instance label files are:
 
