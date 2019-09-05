@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 'platelet-em dataset'
+title: 'platelet-em'
 ---
 
 Created by [LCIMB](about-lcimb/) in collaboration with the [Storrie lab](https://physiology.uams.edu/faculty/brian-storrie/). The **platelet-em** dataset contains two 3D scanning electron microscope (EM) images of human platelets, as well as instance and semantic segmentations of those two image volumes.

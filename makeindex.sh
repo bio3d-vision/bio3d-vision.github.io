@@ -9,7 +9,7 @@ use-site-title: false
 
 echo "---
 layout: page
-title: 'Platelet dataset description'
+title: 'platelet-em'
 use-site-title: false
 ---
 " > descripthead.html

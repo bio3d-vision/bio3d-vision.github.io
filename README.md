@@ -1,4 +1,4 @@
-Segmentation datasets from 3D biological microscopy, organized by [LCIMB](about-lcimb/), a part of [NIH/NIBIB](https://www.nibib.nih.gov/).
+Segmentation datasets from 3D biological microscopy. Organized by [LCIMB](about-lcimb/), a part of [NIH/NIBIB](https://www.nibib.nih.gov/).
 
 ---
 

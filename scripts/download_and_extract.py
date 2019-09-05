@@ -154,4 +154,8 @@ def download_and_extract_archive(url,
     extract_archive(archive, download_root, remove_finished)
 
 if __name__=="__main__":
-    download_and_extract_archive(BIO3D_URL, '.', filename=BIO3D_FILENAME)
+    download_and_extract_archive(
+        BIO3D_URL, 
+        '.', 
+        filename=BIO3D_FILENAME
+        md5='e3a7bb0b0099220781bfea3e5ee9430c')
