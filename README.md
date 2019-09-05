@@ -38,13 +38,13 @@ The **platelet** image volumes were acquired by a [Gatan 3View](https://www.gata
 
 **50-images.tif**
 
-![50-images.tif, Z=0](media/50-image.png)
+![50-images.tif, Z=0](media/50-images.png)
 
 A 50x800x800 grayscale TIF volume. Image data acquired by a SBF-SEM. 
 
 **24-images.tif**
 
-![24-images.tif, Z=0](media/24-image.png)
+![24-images.tif, Z=0](media/24-images.png)
 
 A 24x800x800 grayscale TIF volume. Image data acquired by a SBF-SEM.
 
