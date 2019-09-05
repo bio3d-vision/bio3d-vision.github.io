@@ -1,7 +1,6 @@
 ---
 layout: page
 title: 'Platelet dataset description'
-use-site-title: false
 ---
 
 Created by [LCIMB](about-lcimb/) in collaboration with the [Storrie lab](https://physiology.uams.edu/faculty/brian-storrie/). The **platelet** dataset contains two 3D images of human platelets, as well as instance and semantic segmentations of those two image volumes.
