@@ -5,7 +5,9 @@ windowing.
 import logging
 import math
 import os
+import sys
 
+import matplotlib.pyplot as plt
 import numpy as np
 import tifffile as tif
 
@@ -405,17 +407,40 @@ def _gen_corner_points(spatial_shape: Sequence[int],
     return corners
 
 
+def imshow(x, figsize, *args, frame=True, **kwargs):
+    f, ax = plt.subplots(1, figsize=figsize)
+    f.subplots_adjust(left=0, right=1, bottom=0, top=1)
+    print(x.shape)
+    ax.imshow(x, *args, extent=(0, 1, 1, 0), **kwargs)
+    ax.axis('tight')
+    if frame:
+        ax.get_xaxis().set_ticks([])
+        ax.get_yaxis().set_ticks([])
+    else:
+        ax.axis('off')
+    pass
+
+
 if __name__ == "__main__":
-    main_data_dir = os.path.join('platelet-em')
+    main_data_dir = sys.argv[1]
+    # main_data_dir = os.path.join('platelet-em')
+    # main_data_dir = '/home/matt/Desktop/platelet-lcimb'
     train_data_dir = os.path.join(main_data_dir, 'images')
     train_data_file = '50-images.tif'
     train_data_volume = load(train_data_dir, train_data_file)
+    print(train_data_volume.shape)
+    imshow(train_data_volume[0][0], (4, 4))
     # User would want to add some logic to normalize the data here
     train_data_volume = deform(train_data_volume)
+    print(train_data_volume.shape)
+    imshow(train_data_volume[0], (4, 4))
     # train_data_generator = window_generator(train_data_volume)
-    window_generator = window_generator(train_data_volume, window_shape=[2,
-                                                                         4,
-                                                                         6])
+    window_generator = window_generator(
+        train_data_volume, 
+        window_shape=[3, 200, 200])
 
-    for i in window_generator:
-        print(i.shape)
+    for i, g in enumerate(window_generator):
+        if i % 100 == 0:
+            imshow(g[0], (4, 4))
+
+    plt.show()
