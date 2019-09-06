@@ -88,7 +88,7 @@ url-pretty: "bio3d-vision.github.io"  # eg. "deanattali.com/beautiful-jekyll"
 # disqus: "kratzertblog"
 
 # Fill in your Google Analytics ID to track your website using GA
-# google_analytics: "UA-96660715-1"
+google_analytics: "UA-147228829-1"
 
 # Google Tag Manager ID
 #gtm: ""
