@@ -4,12 +4,16 @@ import os.path
 import hashlib
 import gzip
 import errno
+import sys
 import tarfile
 from tqdm import tqdm
 import zipfile
 
-BIO3D_URL = "https://www.dropbox.com/s/c0jg8biqq66w32r/platelet-lcimb.zip?dl=1"
-BIO3D_FILENAME = "platelet-lcimb.zip"
+BIO3D_URL = "https://www.dropbox.com/s/lo6i7v2mc9z2wft/images-and-labels.zip?dl=1"
+BIO3D_FILENAME = "platelet-em.zip"
+
+# As of 19:49 5 September 2019
+BIO3D_MD5 = 'e3a7bb0b0099220781bfea3e5ee9430c'
 
 def gen_bar_updater():
     pbar = tqdm(total=None)
@@ -144,6 +148,8 @@ def download_and_extract_archive(url,
                                  remove_finished = True):
 
     download_root = os.path.expanduser(download_root)
+    download_root = os.path.join(download_root, 'platelet-em')
+    os.makedirs(download_root, exist_ok=True)
     if not filename:
         filename = os.path.basename(url)
 
@@ -154,8 +160,14 @@ def download_and_extract_archive(url,
     extract_archive(archive, download_root, remove_finished)
 
 if __name__=="__main__":
+    args = sys.argv
+    if len(args) > 1:
+        download_root = args[1]
+    else:
+        download_root = '.'
+
     download_and_extract_archive(
         BIO3D_URL, 
-        '.', 
-        filename=BIO3D_FILENAME
-        md5='e3a7bb0b0099220781bfea3e5ee9430c')
+        download_root, 
+        filename=BIO3D_FILENAME,
+        md5=BIO3D_MD5)
