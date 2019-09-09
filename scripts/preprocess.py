@@ -26,16 +26,13 @@ DataRange = TypeVar(Union[Tuple[slice, slice], Tuple[slice, slice, slice]])
 VolSource = TypeVar(Union[str, np.ndarray])
 
 # Random States
-window_generation_random_state = np.random.RandomState()
+corner_generation_random_state = np.random.RandomState()
 deformation_random_state = np.random.RandomState()
 
 
 def window_generator(data_volume: np.ndarray,
-                     window_shape: Optional[Sequence[int]] = None,
-                     window_spacing: Optional[Sequence[int]] = None,
-                     forward_window_overlap: Optional[Sequence[int]] = None,
-                     random_windowing: bool = False,
-                     random_seed: int = None) -> \
+                     window_shape: Sequence[int],
+                     corner_points: List[List[int]]) -> \
         Generator[np.ndarray, int, None]:
     """
 
@@ -43,44 +40,16 @@ def window_generator(data_volume: np.ndarray,
         data_volume (np.ndarray): The volume to be preprocessed.
         window_shape (Sequence[int]): The 2D or 3D size of the windows to
             be output. (x, y) for 2D and (z, x, y) for 3D.
-        window_spacing (Sequence[int]): Spacing between the corners of
-            consecutive windows along each spatial axis in training mode.
-            Should be in (dx, dy) format for 2D windows and
-            (dz, dx, dy) format for 3D windows. Example: If
-            `window_spacing=[1, 80, 80]`, the first window corner
-            will be at [0, 0, 0], and the second will be at [0, 0, 80].
-            If window_spacing is set it overrides the forward window_overlap.
-        forward_window_overlap (Sequence[int]): Overlap between
-            successive windows during forward (inference) passes through
-            a network. Used to mitigate edge effects caused by
-            partitioning a large volume into independent windows for
-            segmentation. Default is no overlap. Only used if window_spacing
-            is set to None.
-        random_windowing (bool): If True, the window generation is randomized.
-            Uses random_seed.
-        random_seed (int): Seed to control the Numpy random number
-            generator. Only used if random_windowing is True.
+        corner_points (List[List[int], List[int], List[int]]): A list
+            specifying the upper-leftmost corner of the windows.
 
-    Returns: #TODO
+    Returns: Generator of windows.
     """
-    if forward_window_overlap is None:
-        forward_window_overlap = [0, 0, 0]
     # Note whether the window is 2D or 3D for later
     window_is_3d = len(window_shape) == 3
     # Make 2D stuff 3D
     if len(window_shape) == 2:
         window_shape = [1] + list(window_shape)
-    if window_spacing is not None and len(window_spacing) == 2:
-        window_spacing = [1] + list(window_spacing)
-    if window_spacing is None:
-        window_spacing = [s - o for s, o in zip(window_shape,
-                                                forward_window_overlap)]
-    # Set the random seed
-    if random_seed is None:
-        # Create a new seed
-        random_seed = np.random.randint(np.iinfo(np.int32).max)
-
-    window_generation_random_state.seed(random_seed)
 
     # Shape of the volumes, and number of dimensions
     # Currently assumes that data will be 2D single channel (2d shape),
@@ -97,11 +66,6 @@ def window_generator(data_volume: np.ndarray,
     spatial_shape = data_volume.shape[:]
     # Number of spatial dimensions
     nsdim = len(spatial_shape)
-
-    # Generate window corner points
-    corner_points = _gen_corner_points(spatial_shape,
-                                       window_shape,
-                                       window_spacing)
 
     # Create windows
 
@@ -379,20 +343,88 @@ def _deformation_map(shape: Sequence[int],
 
     return indices
 
+def gen_conjugate_corners(corner_points: List[List[int],
+                          window_shape: List[int],
+                          conjugate_window_shape: List[int]) -> \
+        List[List[int]]:
+    """
+    Given a list of corner points generated using `gen_corner_points()`
+    with the window_shape parameter, shift the corner points to obtain larger
+    windows of size conjugate_window_shape such that both corner points
+    generate windows centered at the same location. For example, given
+    corner point [10, 20, 18] generated using window size [2, 4, 3], and given
+    conjugate_window_shape [4, 8, 5] the conjugate corner point is [9, 18, 17].
 
-def _gen_corner_points(spatial_shape: Sequence[int],
-                       window_shape: Sequence[int],
-                       window_spacing: Sequence[int],
-                       random_windowing: bool = False) -> List[List[int]]:
+    Args:
+        corner_points (List[List[int]]): List of upper left-most corners of windows
+            of size `window_shape``.
+        window_shape (List[int]): 2D or 3D size of windows corresponding to
+            `corner_points`.
+        conjugate_window_shape (List[int]): Desired window size of windows centered
+            at the same locatin as those with given `corner_points`. Size in each
+            dimension must be larger than `window_shape`.
+    Returns: List[List[int]] The new list of corner points.
+
+    """
+    conjugate_window_shape = np.array(conjugate_window_shape)
+    window_shape = np.array(window_shape)
+
+    # Window shapes must have the same number of dimensions
+    assert len(conjugate_window_shape) == len(window_shape)
+    # In order for windows to have the same center their difference must be
+    # divisible by 2
+    assert sum((conjugate_window_shape-window_shape) % 2) == 0
+    # Compute difference in shape
+    d_shape = [int((i - o) / 2) for i, o in zip(conjugate_window_shape,
+                                                window_shape)]
+
+    # Generate corners.
+    conjugate_corners = []
+    for i in range(len(corner_points)):
+        for k in corner_points[i]:
+            corner_points_k.append(k-d_shape[i])
+        conjugate_corners.append(corner_points_k)
+    return conjugate_corners
+
+
+
+
+def gen_corner_points(spatial_shape: Sequence[int],
+                      window_shape: Sequence[int],
+                      window_spacing: Sequence[int],
+                      random_windowing: bool = True,
+                      random_seed: int = None) -> List[List[int]]:
     """Generate lists of Z, X, and Y coordinates for the window
-    corner points. If random windowing is on the corner generation is
-    randomized.
+    corner points. If random windowing is set to True, the corner generation
+    is randomized.
 
+    Args:
+        spatial_shape (Sequence[int]): Spatial_shape of volume.
+        window_shape (Sequence[int]): Spatial shape of windows. Must consist of
+            3 integers. Use [1, X, Y] for 2D windows.
+        window_spacing (Sequence[int]): Spacing between the corners of
+            consecutive windows along each spatial axis in training mode.
+            Should be in (dx, dy) format for 2D windows and
+            (dz, dx, dy) format for 3D windows. Example: If
+            `window_spacing=[1, 80, 80]`, the first window corner
+            will be at [0, 0, 0], and the second will be at [0, 0, 80].
+        random_windowing (bool): If True, the window generation is randomized.
+            Uses random_seed.
+        random_seed (int): Seed to control the Numpy random number
+            generator. Only used if random_windowing is True.
     Returns:
         (List[List[int], List[int], List[int]]): Corner point Z, X,
             and Y coordinate lists, respectively.
 
     """
+
+    # Set the random seed
+    if random_seed is None:
+        # Create a new seed
+        random_seed = np.random.randint(np.iinfo(np.int32).max)
+
+    corner_generation_random_state.seed(random_seed)
+
     corners = []
 
     # Number of spatial dimensions
@@ -417,7 +449,7 @@ def _gen_corner_points(spatial_shape: Sequence[int],
 
                 # Output window corner point coordinates along axis k
                 corners_k = \
-                    [window_generation.random_state.randint(bins[i], bins[i + 1])
+                    [corner_generation_random_state.randint(bins[i], bins[i + 1])
                      for i in range(n_bins)]
 
             else:
@@ -446,29 +478,40 @@ def imshow(x, figsize, *args, frame=True, **kwargs):
 
 
 if __name__ == "__main__":
+    # Get args from user
     main_data_dir = sys.argv[1]
-    window_generation_random_seed = int(sys.argv[2])
-    deformation_random_seed = int(sys.argv[3])
-    # main_data_dir = os.path.join('platelet-em')
-    # main_data_dir = '/home/matt/Desktop/platelet-lcimb'
+    random_windowing = sys.argv[2]
+    corner_generation_random_seed = int(sys.argv[3])
+    deformation_random_seed = int(sys.argv[4])
+    window_shape = [3, 200, 200]
+    window_spacing = [3, 100, 100]
+
+    # Load some data and show sample image
     train_data_dir = os.path.join(main_data_dir, 'images')
     train_data_file = '50-images.tif'
     train_data_volume = load(train_data_dir, train_data_file)
     imshow(train_data_volume[0][0], (4, 4))
+
+    # Apply elastic deformation to data and show sample deformed image
     # User would want to add some logic to normalize the data here
     train_data_volume = deform(train_data_volume,
                                random_seed=deformation_random_seed)
     imshow(train_data_volume[0], (4, 4))
-    # train_data_generator = window_generator(train_data_volume)
-    window_generator = window_generator(
-        train_data_volume,
-        window_shape=[3, 200, 200],
-        random_windowing=True,
-        random_seed=window_generation_random_seed)
+
+    # Generate a list of corner points
+    corner_points = gen_corner_points(spatial_shape=train_data_volume.shape,
+                                      window_spacing=window_spacing,
+                                      window_shape=window_shape,
+                                      random_windowing=random_windowing,
+                                      random_seed=corner_generation_random_seed)
+
+    window_generator = window_generator(train_data_volume,
+                                        window_shape=window_shape,
+                                        corner_points=corner_points)
 
     for i, w in enumerate(window_generator):
         if i == 10:
             imshow(w[0], (4, 4))
-            tif.imsave(f"test{window_generation_random_seed}_{deformation_random_seed}.tif", w)
+            tif.imsave(f"test_{corner_generation_random_seed}_{deformation_random_seed}_0.tif", w)
 
     plt.show()
