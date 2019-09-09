@@ -25,14 +25,16 @@ DataRange = TypeVar(Union[Tuple[slice, slice], Tuple[slice, slice, slice]])
 # file saved to disk, or it can be a NumPy array.
 VolSource = TypeVar(Union[str, np.ndarray])
 
-# Global Random State
-random_state = np.random.RandomState()
+# Random States
+window_generation_random_state = np.random.RandomState()
+deformation_random_state = np.random.RandomState()
 
 
 def window_generator(data_volume: np.ndarray,
                      window_shape: Optional[Sequence[int]] = None,
                      window_spacing: Optional[Sequence[int]] = None,
                      forward_window_overlap: Optional[Sequence[int]] = None,
+                     random_windowing: bool = False,
                      random_seed: int = None) -> \
         Generator[np.ndarray, int, None]:
     """
@@ -54,8 +56,10 @@ def window_generator(data_volume: np.ndarray,
             partitioning a large volume into independent windows for
             segmentation. Default is no overlap. Only used if window_spacing
             is set to None.
+        random_windowing (bool): If True, the window generation is randomized.
+            Uses random_seed.
         random_seed (int): Seed to control the Numpy random number
-            generator.
+            generator. Only used if random_windowing is True.
 
     Returns: #TODO
     """
@@ -76,7 +80,7 @@ def window_generator(data_volume: np.ndarray,
         # Create a new seed
         random_seed = np.random.randint(np.iinfo(np.int32).max)
 
-    random_state.seed(random_seed)
+    window_generation_random_state.seed(random_seed)
 
     # Shape of the volumes, and number of dimensions
     # Currently assumes that data will be 2D single channel (2d shape),
@@ -231,7 +235,8 @@ def load(data_dir: Optional[str] = os.path.join('platelet-em', 'images'),
 
 
 def deform(volumes: Union[np.ndarray, Sequence[np.ndarray]],
-           deformation_settings: Optional[Dict[str, Any]] = None) -> \
+           deformation_settings: Optional[Dict[str, Any]] = None,
+           random_seed: int = None) -> \
         List[np.ndarray]:
     """Apply an elastic deformation to a collection of image volumes.
 
@@ -240,11 +245,19 @@ def deform(volumes: Union[np.ndarray, Sequence[np.ndarray]],
             numpy arrays to deform.
         deformation_settings (Optional[Dict[str, Any]]): Elastic deformation
             settings. By default elastic deformation is turned off.
+        random_seed (int): Seed to control the Numpy random number
+            generator.
 
     Returns:
         (List[np.ndarray]): List of deformed volumes.
 
     """
+    # Set the random seed
+    if random_seed is None:
+        # Create a new seed
+        random_seed = np.random.randint(np.iinfo(np.int32).max)
+
+    deformation_random_state.seed(random_seed)
 
     # Image deformation default settings
     if deformation_settings is None:
@@ -343,12 +356,12 @@ def _deformation_map(shape: Sequence[int],
 
     # Calculate x index translations
     dx_small \
-        = gaussian_filter((random_state.rand(*shape_small) * 2 - 1),
+        = gaussian_filter((deformation_random_state.rand(*shape_small) * 2 - 1),
                           sigma,
                           mode='reflect') * alpha
     # Calculate y index translations
     dy_small \
-        = gaussian_filter((random_state.rand(*shape_small) * 2 - 1),
+        = gaussian_filter((deformation_random_state.rand(*shape_small) * 2 - 1),
                           sigma,
                           mode='reflect') * alpha
 
@@ -369,9 +382,11 @@ def _deformation_map(shape: Sequence[int],
 
 def _gen_corner_points(spatial_shape: Sequence[int],
                        window_shape: Sequence[int],
-                       window_spacing: Sequence[int]) -> List[List[int]]:
+                       window_spacing: Sequence[int],
+                       random_windowing: bool = False) -> List[List[int]]:
     """Generate lists of Z, X, and Y coordinates for the window
-    corner points.
+    corner points. If random windowing is on the corner generation is
+    randomized.
 
     Returns:
         (List[List[int], List[int], List[int]]): Corner point Z, X,
@@ -396,11 +411,21 @@ def _gen_corner_points(spatial_shape: Sequence[int],
         else:
             n_bins = int(math.ceil(usable_length / d))
 
-            # Output window corner point coordinates along axis k
-            corners_k = [d * i for i in range(n_bins)]
-            # Additional one to make sure we get full coverage
-            if corners_k[-1] != usable_length - 1:
-                corners_k.append(usable_length - 1)
+            if random_windowing:
+                bins = [min(d * i, usable_length)
+                for i in range(n_bins + 1)]
+
+                # Output window corner point coordinates along axis k
+                corners_k = \
+                    [window_generation.random_state.randint(bins[i], bins[i + 1])
+                     for i in range(n_bins)]
+
+            else:
+                # Output window corner point coordinates along axis k
+                corners_k = [d * i for i in range(n_bins)]
+                # Additional one to make sure we get full coverage
+                if corners_k[-1] != usable_length - 1:
+                    corners_k.append(usable_length - 1)
 
         corners.append(corners_k)
 
@@ -410,7 +435,6 @@ def _gen_corner_points(spatial_shape: Sequence[int],
 def imshow(x, figsize, *args, frame=True, **kwargs):
     f, ax = plt.subplots(1, figsize=figsize)
     f.subplots_adjust(left=0, right=1, bottom=0, top=1)
-    print(x.shape)
     ax.imshow(x, *args, extent=(0, 1, 1, 0), **kwargs)
     ax.axis('tight')
     if frame:
@@ -423,24 +447,28 @@ def imshow(x, figsize, *args, frame=True, **kwargs):
 
 if __name__ == "__main__":
     main_data_dir = sys.argv[1]
+    window_generation_random_seed = int(sys.argv[2])
+    deformation_random_seed = int(sys.argv[3])
     # main_data_dir = os.path.join('platelet-em')
     # main_data_dir = '/home/matt/Desktop/platelet-lcimb'
     train_data_dir = os.path.join(main_data_dir, 'images')
     train_data_file = '50-images.tif'
     train_data_volume = load(train_data_dir, train_data_file)
-    print(train_data_volume.shape)
     imshow(train_data_volume[0][0], (4, 4))
     # User would want to add some logic to normalize the data here
-    train_data_volume = deform(train_data_volume)
-    print(train_data_volume.shape)
+    train_data_volume = deform(train_data_volume,
+                               random_seed=deformation_random_seed)
     imshow(train_data_volume[0], (4, 4))
     # train_data_generator = window_generator(train_data_volume)
     window_generator = window_generator(
-        train_data_volume, 
-        window_shape=[3, 200, 200])
+        train_data_volume,
+        window_shape=[3, 200, 200],
+        random_windowing=True,
+        random_seed=window_generation_random_seed)
 
-    for i, g in enumerate(window_generator):
-        if i % 100 == 0:
-            imshow(g[0], (4, 4))
+    for i, w in enumerate(window_generator):
+        if i == 10:
+            imshow(w[0], (4, 4))
+            tif.imsave(f"test{window_generation_random_seed}_{deformation_random_seed}.tif", w)
 
     plt.show()
