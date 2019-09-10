@@ -6,7 +6,7 @@ import tifffile as tif
 
 from typing import Optional
 
-def platelet_em_default_indexing(indexed_default: np.ndarray) -> np.ndarray:
+def platelet_em_default_indexing():
     
     platelet_em_rgb_to_index = {
     (0, 0, 0): 0,
