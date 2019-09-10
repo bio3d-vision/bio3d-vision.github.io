@@ -4,9 +4,9 @@ import random
 import numpy as np
 import tifffile as tif
 
-from typing import Optional
+from typing import Optional, Dict, Tuple
 
-def platelet_em_default_indexing(indexed_default: np.ndarray) -> np.ndarray:
+def platelet_em_default_indexing():
     
     platelet_em_rgb_to_index = {
     (0, 0, 0): 0,

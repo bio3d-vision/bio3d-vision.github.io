@@ -14,6 +14,7 @@ import tifffile as tif
 from scipy.ndimage.interpolation import zoom, map_coordinates
 from scipy.ndimage.filters import gaussian_filter
 
+from collections import OrderedDict
 from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple, \
     TypeVar, Union, Generator
 
@@ -195,13 +196,13 @@ def load(data_dir: Optional[str] = os.path.join('platelet-em', 'images'),
     # Slice
     data_volume = data_volume[data_range]
 
-    return data_volume
+    return np.squeeze(data_volume)
 
 
-def deform(volumes: Union[np.ndarray, Sequence[np.ndarray]],
+def deform(volume: np.ndarray,
            deformation_settings: Optional[Dict[str, Any]] = None,
            random_seed: int = None) -> \
-        List[np.ndarray]:
+        np.ndarray:
     """Apply an elastic deformation to a collection of image volumes.
 
     Args:
@@ -233,53 +234,39 @@ def deform(volumes: Union[np.ndarray, Sequence[np.ndarray]],
     if 'sigma' not in deformation_settings:
         deformation_settings['sigma'] = 0.6
 
-    # Make sure xy shape (last two axes) are the same for all volumes
-    xy_shapes = [v.shape[-2:] for v in volumes]
-    if xy_shapes.count(xy_shapes[0]) != len(xy_shapes):
-        # True when xy shapes don't all match
-        raise ValueError('Volumes passed to deform() must '
-                         'all have the same shape.')
-
     # Build a new pixel index deformation map
     # Assumed to be the same
-    xy_shape = xy_shapes[0]
+    xy_shape = volume.shape[-2:]
     deform_map = _deformation_map(xy_shape, deformation_settings)
 
-    deformed_volumes = []
+    shape = volume.shape
+    ndim = volume.ndim
+    new_vol = np.zeros_like(volume)
+    if ndim == 4:
+        # 3D multichannel data. Apply 2D deformations to each z slice
+        # in each channel of the volume
+        for c in range(shape[0]):
+            for z in range(shape[1]):
+                new_vol[c, z, ...] = \
+                    map_coordinates(volume[c, z, ...],
+                                    deform_map,
+                                    order=0).reshape(xy_shape)
+    elif ndim == 3:
+        # 3D single channel data. Apply 2D deformations to each z slice
+        # of the volume
+        for z in range(shape[0]):
+            new_vol[z, ...] = map_coordinates(volume[z, ...],
+                                              deform_map,
+                                              order=0).reshape(xy_shape)
+    elif ndim == 2:
+        # Volume is 2D, deform the whole thing at once
+        new_vol = map_coordinates(volume,
+                                  deform_map,
+                                  order=0).reshape(xy_shape)
+    else:
+        raise ValueError(f'Cannot deform volume with ndim {ndim}')
 
-    for volume in volumes:
-        shape = volume.shape
-        ndim = volume.ndim
-        new_vol = np.zeros_like(volume)
-        if ndim == 4:
-            # 3D multichannel data. Apply 2D deformations to each z slice
-            # in each channel of the volume
-            for c in range(shape[0]):
-                for z in range(shape[1]):
-                    new_vol[c, z, ...] = \
-                        map_coordinates(volume[c, z, ...],
-                                        deform_map,
-                                        order=0).reshape(xy_shape)
-        elif ndim == 3:
-            # 3D single channel data. Apply 2D deformations to each z slice
-            # of the volume
-            for z in range(shape[0]):
-                new_vol[z, ...] = map_coordinates(volume[z, ...],
-                                                  deform_map,
-                                                  order=0).reshape(xy_shape)
-        elif ndim == 2:
-            # Volume is 2D, deform the whole thing at once
-            new_vol = map_coordinates(volume,
-                                      deform_map,
-                                      order=0).reshape(xy_shape)
-        else:
-            raise ValueError(f'Cannot deform volume with ndim {ndim}')
-
-        deformed_volumes.append(new_vol)
-        if isinstance(volumes, np.ndarray):
-            return deformed_volumes[0]
-        else:
-            return deformed_volumes
+    return new_vol
 
 
 def _deformation_map(shape: Sequence[int],
@@ -317,7 +304,7 @@ def _deformation_map(shape: Sequence[int],
     # Sample Gaussian distribution on a more coarse grid, then upsample
     # and interpolate
     shape_small = [int(s / float(scale)) for s in shape]
-
+    
     # Calculate x index translations
     dx_small \
         = gaussian_filter((deformation_random_state.rand(*shape_small) * 2 - 1),
@@ -343,7 +330,7 @@ def _deformation_map(shape: Sequence[int],
 
     return indices
 
-def gen_conjugate_corners(corner_points: List[List[int],
+def gen_conjugate_corners(corner_points: List[List[int]],
                           window_shape: List[int],
                           conjugate_window_shape: List[int]) -> \
         List[List[int]]:
@@ -381,6 +368,7 @@ def gen_conjugate_corners(corner_points: List[List[int],
     # Generate corners.
     conjugate_corners = []
     for i in range(len(corner_points)):
+        corner_points_k = []
         for k in corner_points[i]:
             corner_points_k.append(k-d_shape[i])
         conjugate_corners.append(corner_points_k)
@@ -464,16 +452,23 @@ def gen_corner_points(spatial_shape: Sequence[int],
     return corners
 
 
-def imshow(x, figsize, *args, frame=True, **kwargs):
-    f, ax = plt.subplots(1, figsize=figsize)
-    f.subplots_adjust(left=0, right=1, bottom=0, top=1)
-    ax.imshow(x, *args, extent=(0, 1, 1, 0), **kwargs)
-    ax.axis('tight')
-    if frame:
-        ax.get_xaxis().set_ticks([])
-        ax.get_yaxis().set_ticks([])
-    else:
-        ax.axis('off')
+def imshow(images,#: OrderedDict[int, np.ndarray], 
+           figsize: List[int], 
+           plot_settings,#: OrderedDict[int, Dict], 
+           frame=True):
+    #print(len(images))
+    f, ax = plt.subplots(nrows=1, ncols=2, figsize=figsize)
+    #f.subplots_adjust(left=0, right=1, bottom=0, top=1)
+    #print("here")
+    for i, row in enumerate(ax):
+        row.imshow(images[i], **plot_settings[i], extent=(0, 1, 1, 0))
+        row.axis('tight')
+        if frame:
+            row.get_xaxis().set_ticks([])
+            row.get_yaxis().set_ticks([])
+        else:
+            row.axis('off')
+         
     pass
 
 
@@ -490,7 +485,7 @@ if __name__ == "__main__":
     train_data_dir = os.path.join(main_data_dir, 'images')
     train_data_file = '50-images.tif'
     train_data_volume = load(train_data_dir, train_data_file)
-    imshow(train_data_volume[0][0], (4, 4))
+    imshow(train_data_volume[0], (4, 4))
 
     # Apply elastic deformation to data and show sample deformed image
     # User would want to add some logic to normalize the data here
