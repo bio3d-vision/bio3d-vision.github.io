@@ -9,11 +9,11 @@ import tarfile
 from tqdm import tqdm
 import zipfile
 
-BIO3D_URL = "https://www.dropbox.com/s/lo6i7v2mc9z2wft/images-and-labels.zip?dl=1"
-BIO3D_FILENAME = "platelet-em.zip"
+# BIO3D_URL = "https://www.dropbox.com/s/lo6i7v2mc9z2wft/images-and-labels.zip?dl=1"
+# BIO3D_FILENAME = "platelet-em.zip"
 
-# As of 19:49 5 September 2019
-BIO3D_MD5 = 'e3a7bb0b0099220781bfea3e5ee9430c'
+# # As of 19:49 5 September 2019
+# BIO3D_MD5 = 'e3a7bb0b0099220781bfea3e5ee9430c'
 
 def gen_bar_updater():
     pbar = tqdm(total=None)
@@ -141,11 +141,11 @@ def extract_archive(from_path, to_path=None, remove_finished=True):
         os.remove(from_path)
 
 
-def download_and_extract_archive(url, 
-                                 download_root,
-                                 filename = None,
-                                 md5 = None, 
-                                 remove_finished = True):
+def download_and_extract(url, 
+                         download_root,
+                         filename = None,
+                         md5 = None, 
+                         remove_finished = True):
 
     download_root = os.path.expanduser(download_root)
     download_root = os.path.join(download_root, 'platelet-em')
@@ -159,15 +159,15 @@ def download_and_extract_archive(url,
     print("Extracting {} to {}".format(archive, download_root))
     extract_archive(archive, download_root, remove_finished)
 
-if __name__=="__main__":
-    args = sys.argv
-    if len(args) > 1:
-        download_root = args[1]
-    else:
-        download_root = '.'
+# if __name__=="__main__":
+#     args = sys.argv
+#     if len(args) > 1:
+#         download_root = args[1]
+#     else:
+#         download_root = '.'
 
-    download_and_extract_archive(
-        BIO3D_URL, 
-        download_root, 
-        filename=BIO3D_FILENAME,
-        md5=BIO3D_MD5)
+#     download_and_extract_archive(
+#         BIO3D_URL, 
+#         download_root, 
+#         filename=BIO3D_FILENAME,
+#         md5=BIO3D_MD5)
