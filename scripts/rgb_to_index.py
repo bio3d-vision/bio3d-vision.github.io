@@ -6,7 +6,9 @@ import tifffile as tif
 
 from typing import Optional
 
-platelet_rgb_to_index = {
+def platelet_em_default_indexing(indexed_default: np.ndarray) -> np.ndarray:
+    
+    platelet_em_rgb_to_index = {
     (0, 0, 0): 0,
     (1, 1, 224): 1,
     (1, 171, 254): 2,
@@ -15,7 +17,7 @@ platelet_rgb_to_index = {
     (250, 94, 0): 5,
     (245, 0, 203): 6}
     
-platelet_index_to_class = {
+    platelet_em_index_to_class = {
     0: 'background',
     1: 'cell',
     2: 'mitochondrion',
@@ -23,6 +25,8 @@ platelet_index_to_class = {
     4: 'canalicular vessel',
     5: 'dense granule',
     6: 'dense granule core'}
+    return {'rgb_to_index': platelet_em_rgb_to_index,
+            'index_to_class': platelet_em_index_to_class}
 
 def rgb_to_index_semantic(rgb: np.ndarray,
                           color_map: Dict[Tuple[int, int, int], int]) -> np.ndarray:
