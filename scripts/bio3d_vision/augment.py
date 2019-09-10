@@ -8,6 +8,9 @@ from scipy.ndimage.filters import gaussian_filter
 
 from typing import Any, Dict, Optional, Sequence, Tuple
 
+deformation_random_state = np.random.RandomState()
+
+
 def deform(volume: np.ndarray,
            deformation_settings: Optional[Dict[str, Any]] = None,
            random_seed: int = None) -> \

@@ -25,7 +25,6 @@ VolSource = TypeVar(Union[str, np.ndarray])
 
 # Random States
 corner_generation_random_state = np.random.RandomState()
-deformation_random_state = np.random.RandomState()
 
 
 def window_generator(data_volume: np.ndarray,
