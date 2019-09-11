@@ -1,4 +1,4 @@
-The **bio3d-vision** dataset collection's goal is to aggregate high-quality, large-scale 3D biological microscopy datasets whose analyses present challenging computer vision problems of great importance to advancing the state of microscopy.
+The **bio3d-vision** dataset collection's goal is to aggregate high-quality, large-scale 3D biological microscopy datasets whose analyses present challenging computer vision problems that are important to advancing the state of microscopy.
 
 
 The **bio3d-vision** project is organized by [LCIMB](about-lcimb/), a part of [NIH/NIBIB](https://www.nibib.nih.gov/).
