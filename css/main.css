@@ -48,7 +48,7 @@ blockquote p:first-child {
 }
 
 hr {
-  border-top: 5px solid #ff00ff;
+  border-top: border-top: 1px solid #BBBBDD;
 }
 
 hr.small {
