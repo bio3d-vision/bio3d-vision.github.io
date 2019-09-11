@@ -48,8 +48,8 @@ blockquote p:first-child {
 }
 
 hr {
-  border-top: border-top: 2px solid #888888;
-  max-width: 200px;
+  border-top: 1px solid #9999BB;
+  max-width: 40%;
 }
 
 hr.small {
