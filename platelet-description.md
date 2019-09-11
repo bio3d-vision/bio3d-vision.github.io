@@ -7,6 +7,10 @@ The **platelet-em** dataset contains two 3D scanning electron microscope (EM) im
 
 This data has been reviewed by NIBIB, contains no PII or PHI, and is cleared for public release. All files use a multipage uint16 TIF format. A 3D image with size [Z, X, Y] is saved as Z pages of size [X, Y]. Image voxels are approximately 40x10x10 nm<sup>3</sup>. 
 
+## Download
+
+[Download images and labels](https://www.dropbox.com/s/lo6i7v2mc9z2wft/images-and-labels.zip?dl=1) (95.8 MB)
+
 ## Image files
 
 ![50-images.tif, Z=0](media/50-images.png)
