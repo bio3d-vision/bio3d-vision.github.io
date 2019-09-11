@@ -46,11 +46,16 @@ blockquote {
 blockquote p:first-child {
   margin-top: 0;
 }
+
+hr {
+  border-top: 5px solid #ff00ff;
+}
+
 hr.small {
   max-width: 100px;
   margin: 15px auto;
   border-width: 4px;
-  border-color: #bbbbbb;
+  border-color: inherit;
   border-radius: 3px;
 }
 
