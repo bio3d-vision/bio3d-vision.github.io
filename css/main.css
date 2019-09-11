@@ -50,7 +50,7 @@ blockquote p:first-child {
 hr {
   border-top: 1px solid #a5adc2;
   max-width: 100%;
-  padding: 10px;
+  /*padding: 10px;*/
 }
 
 hr.small {
