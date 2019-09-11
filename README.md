@@ -1,7 +1,7 @@
-The _bio3d-vision_ dataset collection's goal is to aggregate high-quality, large-scale 3D biological microscopy datasets whose analyses present challenging computer vision problems of great importance to advancing the state of microscopy.
+The **bio3d-vision** dataset collection's goal is to aggregate high-quality, large-scale 3D biological microscopy datasets whose analyses present challenging computer vision problems of great importance to advancing the state of microscopy.
 
 
-The _bio3d-vision_ project is organized by [LCIMB](about-lcimb/), a part of [NIH/NIBIB](https://www.nibib.nih.gov/).
+The **bio3d-vision** project is organized by [LCIMB](about-lcimb/), a part of [NIH/NIBIB](https://www.nibib.nih.gov/).
 
 ---
 
@@ -11,9 +11,13 @@ The _bio3d-vision_ project is organized by [LCIMB](about-lcimb/), a part of [NIH
 
 In addition to manual dataset downloads below, this project provides a `bio3d_vision` python package to simplify downloading and manipulating 3D microscopy images and labels. 
 
+### Requirements
+
+The `bio3d_vision` package uses Python 3.6+ features, and requires `matplotlib`, `numpy`, `scipy`, and `tifffile`.
+
 ### Clone the repo
 
-The `bio3d_vision` package can be cloned from [https://github.com/bio3d-vision/bio3d_vision](https://github.com/bio3d-vision/bio3d_vision). Add it to your system path or a project folder to use it. TODO: pip integration.
+Clone the `bio3d_vision` package from [https://github.com/bio3d-vision/bio3d_vision](https://github.com/bio3d-vision/bio3d_vision). Add it to your system path or a project folder to use it. TODO: pip integration.
 
 ### Example: *platelet-em*
 
