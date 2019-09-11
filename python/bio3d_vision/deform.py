@@ -1,4 +1,4 @@
-"""Functions for doing data augmentation on 2D and 3D image regions.
+"""Functions for doing elastic data deformation on 2D and 3D image regions.
 
 """
 import numpy as np
@@ -18,8 +18,7 @@ def deform(volume: np.ndarray,
     """Apply an elastic deformation to a collection of image volumes.
 
     Args:
-        volumes (Union[np.ndarray, Sequence[np.ndarray]]): One or more
-            numpy arrays to deform.
+        volume (np.ndarray): An array to deform.
         deformation_settings (Optional[Dict[str, Any]]): Elastic deformation
             settings. By default elastic deformation is turned off.
         random_seed (int): Seed to control the Numpy random number

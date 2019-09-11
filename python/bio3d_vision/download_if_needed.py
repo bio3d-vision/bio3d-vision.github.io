@@ -4,16 +4,65 @@ import os.path
 import hashlib
 import gzip
 import errno
-import sys
 import tarfile
 from tqdm import tqdm
 import zipfile
 
-# BIO3D_URL = "https://www.dropbox.com/s/lo6i7v2mc9z2wft/images-and-labels.zip?dl=1"
-# BIO3D_FILENAME = "platelet-em.zip"
+from .rgb_to_index import convert_platelet_files
 
-# # As of 19:49 5 September 2019
-# BIO3D_MD5 = 'e3a7bb0b0099220781bfea3e5ee9430c'
+
+# Last updated 00:28 11 September 2019
+PLATELET_EM_INFO = {
+    'url': "https://www.dropbox.com/s/lo6i7v2mc9z2wft/images-and"
+           "-labels.zip?dl=1",
+    'filename': 'platelet-em.zip',
+    'md5': 'e3a7bb0b0099220781bfea3e5ee9430c',
+    'filedirs': ['images', 'labels-semantic', 'labels-instance']}
+
+
+def download_if_needed(
+        dataset_name: str,
+        download_dir: str,
+        convert_labels_to_indexed: bool = False):
+    """Download a named dataset from the bio3d-vision collection.
+
+    If specified, convert any appropriate dataset label files from an RGB
+    image to an indexed image, a representation more suited to machine
+    learning applications.
+
+    Args:
+        dataset_name:
+        download_dir:
+        convert_labels_to_indexed:
+
+    Returns: None
+
+    """
+    # Currently only the 'platelet-em' dataset is available
+    if dataset_name == 'platelet-em':
+        dataset_info = PLATELET_EM_INFO
+        convert_label_files = convert_platelet_files
+    else:
+        raise ValueError(f"Dataset name {dataset_name} not recognized. "
+                         f"Possible choices are: 'platelet-em'.")
+
+    dataset_dir = os.path.join(download_dir, dataset_name)
+    if os.path.exists(dataset_dir):
+        print(f'Found {dataset_name} dataset already in {download_dir}.')
+    else:
+        print(f'No {dataset_name} dataset found, downloading...')
+        download_and_extract(
+            dataset_info['url'],
+            download_dir,
+            filename=dataset_info['filename'],
+            md5=dataset_info['md5'])
+
+        if convert_labels_to_indexed:
+            print('Converting dataset label file TIFs from RGB to indexed.')
+            convert_label_files(dataset_dir)
+
+    pass
+
 
 def gen_bar_updater():
     pbar = tqdm(total=None)
@@ -158,16 +207,3 @@ def download_and_extract(url,
     archive = os.path.join(download_root, filename)
     print("Extracting {} to {}".format(archive, download_root))
     extract_archive(archive, download_root, remove_finished)
-
-# if __name__=="__main__":
-#     args = sys.argv
-#     if len(args) > 1:
-#         download_root = args[1]
-#     else:
-#         download_root = '.'
-
-#     download_and_extract_archive(
-#         BIO3D_URL, 
-#         download_root, 
-#         filename=BIO3D_FILENAME,
-#         md5=BIO3D_MD5)

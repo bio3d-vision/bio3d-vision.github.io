@@ -2,26 +2,12 @@
 windowing.
 
 """
-import logging
 import math
-import os
-import sys
 
-import matplotlib.pyplot as plt
 import numpy as np
-import tifffile as tif
 
-from collections import OrderedDict
-from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple, \
-    TypeVar, Union, Generator
+from typing import List, Sequence, Generator
 
-# DataRanges specify which portion of a 3D volume to use for training or
-# validation. Each DataRange is either a tuple of 2 slice objects for x and y
-# ranges, or a tuple of 3 slice objects for z, x, and y ranges.
-DataRange = TypeVar(Union[Tuple[slice, slice], Tuple[slice, slice, slice]])
-# A source for a data volume can either be a string, indicating a path to a
-# file saved to disk, or it can be a NumPy array.
-VolSource = TypeVar(Union[str, np.ndarray])
 
 # Random States
 corner_generation_random_state = np.random.RandomState()
@@ -61,8 +47,6 @@ def window_generator(data_volume: np.ndarray,
 
     # Volumes' spatial shape
     spatial_shape = data_volume.shape[:]
-    # Number of spatial dimensions
-    nsdim = len(spatial_shape)
 
     # Create windows
 
@@ -151,52 +135,6 @@ def window_generator(data_volume: np.ndarray,
     return None
 
 
-def load(data_dir: Optional[str] = os.path.join('platelet-em', 'images'),
-         data_file: Optional[Union[str, np.ndarray]] = '50-images.tif',
-         data_range: Optional[DataRange] = None,
-         data_type: Union[np.float32, np.int32] = np.float32):
-    """Load data from the file system.
-
-    Args:
-        data_vol_dir (str): String specifying the location of the source
-            data.
-        data_file (Optional[VolSource]): Name of the data image
-            volume within the data_dir, or a numpy array.
-        data_range (Optional[DataRange]): Range of the loaded
-            volume to use, represented as a tuple of 2 or 3 slice objects.
-        data_type (Union[np.float32, np.int32]): Cast the data to this type.
-
-    Returns: (np.ndarray) The data volume loaded.
-
-    """
-    # Prepare the training volume range slicing
-    if data_range is None:
-        train_range = (slice(None), slice(None), slice(None))
-    elif len(data_range) == 2:
-        data_range = (slice(None), data_range[0], data_range[1])
-
-    # Load volume
-    if isinstance(data_dir, str) and isinstance(data_file, str):
-        data_volume = \
-            tif.imread(os.path.join(data_dir,
-                                    data_file)).astype(data_type)
-    elif isinstance(data_file, np.ndarray):
-        data_volume = data_file.astype(data_type)
-    else:
-        raise ValueError(f'Need to either specify strings for both data_dir' \
-                         f'and data_file or supply data_file as np.ndarray. ')
-
-    # Make a 2D volume 3D
-    if data_volume.ndim == 2:
-        data_volume = np.expand_dims(data_volume, axis=0)
-    # Slice
-    data_volume = data_volume[data_range]
-
-    return np.squeeze(data_volume)
-
-
-
-
 def gen_conjugate_corners(corner_points: List[List[int]],
                           window_shape: List[int],
                           conjugate_window_shape: List[int]) -> \
@@ -210,13 +148,13 @@ def gen_conjugate_corners(corner_points: List[List[int]],
     conjugate_window_shape [4, 8, 5] the conjugate corner point is [9, 18, 17].
 
     Args:
-        corner_points (List[List[int]]): List of upper left-most corners of windows
-            of size `window_shape``.
+        corner_points (List[List[int]]): List of upper left-most corners of
+            windows of size `window_shape``.
         window_shape (List[int]): 2D or 3D size of windows corresponding to
             `corner_points`.
-        conjugate_window_shape (List[int]): Desired window size of windows centered
-            at the same locatin as those with given `corner_points`. Size in each
-            dimension must be larger than `window_shape`.
+        conjugate_window_shape (List[int]): Desired window size of windows
+            centered at the same locatin as those with given `corner_points`.
+            Size in each dimension must be larger than `window_shape`.
     Returns: List[List[int]] The new list of corner points.
 
     """
@@ -240,8 +178,6 @@ def gen_conjugate_corners(corner_points: List[List[int]],
             corner_points_k.append(k-d_shape[i])
         conjugate_corners.append(corner_points_k)
     return conjugate_corners
-
-
 
 
 def gen_corner_points(spatial_shape: Sequence[int],
@@ -317,63 +253,3 @@ def gen_corner_points(spatial_shape: Sequence[int],
         corners.append(corners_k)
 
     return corners
-
-
-def imshow(images,#: OrderedDict[int, np.ndarray], 
-           figsize: List[int], 
-           plot_settings,#: OrderedDict[int, Dict], 
-           frame=True):
-    #print(len(images))
-    f, ax = plt.subplots(nrows=1, ncols=2, figsize=figsize)
-    #f.subplots_adjust(left=0, right=1, bottom=0, top=1)
-    #print("here")
-    for i, row in enumerate(ax):
-        row.imshow(images[i], **plot_settings[i], extent=(0, 1, 1, 0))
-        row.axis('tight')
-        if frame:
-            row.get_xaxis().set_ticks([])
-            row.get_yaxis().set_ticks([])
-        else:
-            row.axis('off')
-         
-    pass
-
-
-if __name__ == "__main__":
-    # Get args from user
-    main_data_dir = sys.argv[1]
-    random_windowing = sys.argv[2]
-    corner_generation_random_seed = int(sys.argv[3])
-    deformation_random_seed = int(sys.argv[4])
-    window_shape = [3, 200, 200]
-    window_spacing = [3, 100, 100]
-
-    # Load some data and show sample image
-    train_data_dir = os.path.join(main_data_dir, 'images')
-    train_data_file = '50-images.tif'
-    train_data_volume = load(train_data_dir, train_data_file)
-    imshow(train_data_volume[0], (4, 4))
-
-    # Apply elastic deformation to data and show sample deformed image
-    # User would want to add some logic to normalize the data here
-    train_data_volume = deform(train_data_volume,
-                               random_seed=deformation_random_seed)
-    imshow(train_data_volume[0], (4, 4))
-
-    # Generate a list of corner points
-    corner_points = gen_corner_points(spatial_shape=train_data_volume.shape,
-                                      window_spacing=window_spacing,
-                                      window_shape=window_shape,
-                                      random_windowing=random_windowing,
-                                      random_seed=corner_generation_random_seed)
-
-    window_generator = window_generator(train_data_volume,
-                                        window_shape=window_shape,
-                                        corner_points=corner_points)
-
-    for i, w in enumerate(window_generator):
-        if i == 10:
-            imshow(w[0], (4, 4))
-            tif.imsave(f"test_{corner_generation_random_seed}_{deformation_random_seed}_0.tif", w)
-
-    plt.show()
