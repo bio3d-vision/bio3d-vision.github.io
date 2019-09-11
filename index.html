@@ -4,9 +4,20 @@ title: 'bio3d-vision'
 use-site-title: false
 ---
 
-<p>Segmentation datasets from 3D biological microscopy. Organized by <a href="about-lcimb/">LCIMB</a>, a part of <a href="https://www.nibib.nih.gov/">NIH/NIBIB</a>.</p>
+<p>The <em>bio3d-vision</em> dataset collection's goal is to aggregate high-quality, large-scale 3D biological microscopy datasets whose analyses present challenging computer vision problems of great importance to advancing the state of microscopy.</p>
+<p>The <em>bio3d-vision</em> project is organized by <a href="about-lcimb/">LCIMB</a>, a part of <a href="https://www.nibib.nih.gov/">NIH/NIBIB</a>.</p>
 <hr />
-<h1 id="platelet-em">platelet-em</h1>
+<h1 id="getting-started">Getting started</h1>
+<hr />
+<p>In addition to manual dataset downloads below, this project provides a <code>bio3d_vision</code> python package to simplify downloading and manipulating 3D microscopy images and labels.</p>
+<h3 id="clone-the-repo">Clone the repo</h3>
+<p>The <code>bio3d_vision</code> package can be cloned from <a href="https://github.com/bio3d-vision/bio3d_vision" class="uri">https://github.com/bio3d-vision/bio3d_vision</a>. Add it to your system path or a project folder to use it. TODO: pip integration.</p>
+<h3 id="example-platelet-em">Example: <em>platelet-em</em></h3>
+<p><a href="examples/example_data_prep.html">Click here for an example</a> of using <code>bio3d_vision</code> to download the <em>platelet-em</em> dataset and load it into numpy for manipulation and windowing.</p>
+<hr />
+<h1 id="datasets">Datasets</h1>
+<hr />
+<h1 id="platelet-em"><em>platelet-em</em></h1>
 <div class="figure">
 <img src="media/platelet-banner.png" />
 
@@ -15,14 +26,9 @@ use-site-title: false
 <img src="media/3d/50-wide.png" />
 
 </div>
-<!-- ![](media/3d/50-image.png)
-
-![](media/3d/50-semantic.png)
-
-![](media/3d/50-instance-cell.png)
-
-![](media/3d/50-instance-organelle.png) -->
+<p>Created by <a href="https://www.nibib.nih.gov/labs-at-nibib/laboratory-cellular-imaging-and-macromolecular-biophysics-lcimb">LCIMB</a> in collaboration with Prof. Brian Storrie's <a href="https://physiology.uams.edu/faculty/brian-storrie/">lab at UAMS</a>.</p>
 <h3 id="download">Download</h3>
 <p><a href="https://www.dropbox.com/s/lo6i7v2mc9z2wft/images-and-labels.zip?dl=1">Download images and labels</a> (95.8 MB)</p>
 <h3 id="description">Description</h3>
 <p><a href="platelet-description.html">Click here</a> for a detailed description of the <strong>platelet-em</strong> dataset.</p>
+<hr />
