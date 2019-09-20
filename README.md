@@ -31,7 +31,7 @@ Clone the `bio3d_vision` package from [https://github.com/bio3d-vision/bio3d_vis
 
 # *platelet-em*
 
-![](media/platelet-banner.png)
+![](media/platelet-banner-2.png)
 
 ![](media/3d/50-wide.png)
 
@@ -39,7 +39,7 @@ Created by [LCIMB](https://www.nibib.nih.gov/labs-at-nibib/laboratory-cellular-i
 
 ### Download
 
-[Download images and labels](https://www.dropbox.com/s/lo6i7v2mc9z2wft/images-and-labels.zip?dl=1) (95.8 MB)
+[Download images and labels](https://www.dropbox.com/s/ra5gt32qswbfr34/images_and_labels.zip?dl=1) (95.1 MB)
 
 ### Description
 
