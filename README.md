@@ -39,7 +39,15 @@ Created by [LCIMB](https://www.nibib.nih.gov/labs-at-nibib/laboratory-cellular-i
 
 ### Download
 
-[Download images and labels](https://www.dropbox.com/s/ra5gt32qswbfr34/images_and_labels.zip?dl=1) (95.1 MB)
+Label files can be downloaded as RGBA TIF image volumes or as string-based JSON dictionaries. The TIF format is better for visualization and image manipulation GUIs, the JSON format is better for use with scripting.
+
+#### TIF
+
+[Download images and TIF labels](https://www.dropbox.com/s/pvrfnurjq11k0l3/images_and_labels_rgba.zip?dl=1) (95.3 MB)
+
+#### JSON
+
+[Download images and JSON labels](https://www.dropbox.com/s/tgmwv9kegijfrao/images_and_labels_json.zip?dl=1) (98.2 MB)
 
 ### Description
 
