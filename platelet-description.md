@@ -9,7 +9,15 @@ This data has been reviewed by NIBIB, contains no PII or PHI, and is cleared for
 
 ## Download
 
-[Download images and labels](https://www.dropbox.com/s/lo6i7v2mc9z2wft/images-and-labels.zip?dl=1) (95.8 MB)
+Label files can be downloaded as RGBA TIF image volumes or as string-based JSON dictionaries. The TIF format is better for visualization and image manipulation GUIs, the JSON format is better for use with scripting.
+
+#### TIF
+
+[Download images and TIF labels](https://www.dropbox.com/s/pvrfnurjq11k0l3/images_and_labels_rgba.zip?dl=1) (95.3 MB)
+
+#### JSON
+
+[Download images and JSON labels](https://www.dropbox.com/s/tgmwv9kegijfrao/images_and_labels_json.zip?dl=1) (98.2 MB)
 
 ## Image files
 
