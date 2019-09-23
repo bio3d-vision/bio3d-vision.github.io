@@ -13,7 +13,7 @@ In addition to manual dataset downloads below, this project provides a `bio3d_vi
 
 ### Requirements
 
-The `bio3d_vision` package uses Python 3.6+ features, and requires `matplotlib`, `numpy`, `scipy`, and `tifffile`.
+The `bio3d_vision` package uses python 3.6+ features, and requires `matplotlib`, `numpy`, `scipy`, `scikit-image`, and `tifffile`.
 
 ### Clone the repo
 

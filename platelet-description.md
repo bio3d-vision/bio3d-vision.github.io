@@ -19,6 +19,8 @@ Label files can be downloaded as RGBA TIF image volumes or as string-based JSON 
 
 [Download images and JSON labels](https://www.dropbox.com/s/tgmwv9kegijfrao/images_and_labels_json.zip?dl=1) (98.2 MB)
 
+---
+
 ## Image files
 
 ![50-images.tif, Z=0](media/50-images.png)
@@ -30,6 +32,8 @@ Image files are:
 - **50-images.tif**, a 50x800x800 SBF-SEM image saved as a grayscale TIF.
 
 - **24-images.tif**, a 24x800x800 SBF-SEM image saved as a grayscale TIF.
+
+---
 
 ## Label files
 
@@ -91,11 +95,14 @@ Instance label files are:
 
 ### JSON format
 
----
 
 For both semantic and instance labels, label data can be represented with a dictionary structure. Dictionary keys are the unique non-zero integer labels in the label data. For each key, the corresponding value is the binary mask of the region associated to the key. This mask is stored as a [run-length encoded](https://www.kaggle.com/paulorzp/run-length-encode-and-decode) string. An additional `'.info'` key stores image shape and datatype information.
 
-**Example** (Python): A synthetic blob image with two nonzero values:
+---
+
+#### Example
+
+In python - a synthetic blob image with two nonzero values:
 
 
 ```python
@@ -115,7 +122,7 @@ image_as_dict = {
     '2': '1 3 11 1 33 2 42 3 87 2'}
 ```
 
-File names are the same as for the TIF format, with the `.json` file format instead of `.tif`.
+File names are the same as for the TIF format, with the `.json` file format instead of `.tif`. Functions for converting between TIF and JSON formats, as well as between python strings and numpy ndarrays, can be found in the [bio3d_vision](https://github.com/bio3d-vision/bio3d_vision) package.
 
 
 
