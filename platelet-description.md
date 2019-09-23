@@ -9,7 +9,7 @@ This data has been reviewed by NIBIB, contains no PII or PHI, and is cleared for
 
 ## Download
 
-Label files can be downloaded as RGBA TIF image volumes or as string-based JSON dictionaries. The TIF format is better for visualization and image manipulation GUIs, the JSON format is better for use with scripting.
+Label files can be downloaded as RGBA TIF image volumes or as string-based JSON dictionaries. 
 
 #### TIF
 
@@ -32,6 +32,12 @@ Image files are:
 - **24-images.tif**, a 24x800x800 SBF-SEM image saved as a grayscale TIF.
 
 ## Label files
+
+Label data can be stored in image-based or text-based formats. Image files are better for visualization and image manipulation with GUIs, while text files are better for use with scripting. For its labels, **platelet-em** dataset uses TIF-formatted image files and JSON-formatted text files.
+
+---
+
+### TIF format 
 
 Label TIF files assign a color to each voxel in a corresponding image file. The colors correspond to labels, either object classes for semantic labels or unique object ids for instance labels.
 
@@ -80,3 +86,36 @@ Instance label files are:
 - **24-instance-cell.tif**: A 24x800x800 instance segmentation of cells in _24-images.tif_, saved as an RGB TIF.
 
 - **24-instance-organelle.tif**: A 24x800x800 instance segmentation of organelles in _24-images.tif_, saved as an RGB TIF.
+
+---
+
+### JSON format
+
+---
+
+For both semantic and instance labels, label data can be represented with a dictionary structure. Dictionary keys are the unique non-zero integer labels in the label data. For each key, the corresponding value is the binary mask of the region associated to the key. This mask is stored as a [run-length encoded](https://www.kaggle.com/paulorzp/run-length-encode-and-decode) string. An additional `'.info'` key stores image shape and datatype information.
+
+**Example** (Python): A synthetic blob image with two nonzero values:
+
+
+```python
+blob1 = skimage.data.binary_blobs(length=10, seed=1, volume_fraction=0.2)
+blob2 = skimage.data.binary_blobs(length=10, seed=2, volume_fraction=0.1)
+image = np.zeros((10, 10), dtype=int)
+image[blob1] = 1
+image[blob2] = 2
+```
+
+has the following JSON-compatible dictionary representation:
+
+```python
+image_as_dict = {
+    '.info': {'dtype': 'np.int', 'shape': (10, 10)},
+    '1': '7 2 12 1 21 1 40 1 50 4 60 3 68 1 71 1 81 1',
+    '2': '1 3 11 1 33 2 42 3 87 2'}
+```
+
+File names are the same as for the TIF format, with the `.json` file format instead of `.tif`.
+
+
+
