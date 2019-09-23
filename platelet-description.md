@@ -98,6 +98,8 @@ Instance label files are:
 
 For both semantic and instance labels, label data can be represented with a dictionary structure. Dictionary keys are the unique non-zero integer labels in the label data. For each key, the corresponding value is the binary mask of the region associated to the key. This mask is stored as a [run-length encoded](https://www.kaggle.com/paulorzp/run-length-encode-and-decode) string. An additional `'.info'` key stores image shape and datatype information.
 
+File names are the same as for the TIF format, with the `.json` file format instead of `.tif`. Functions for converting between TIF and JSON formats, as well as between python strings and numpy ndarrays, can be found in the [bio3d_vision](https://github.com/bio3d-vision/bio3d_vision) package.
+
 ---
 
 #### Example
@@ -121,8 +123,3 @@ image_as_dict = {
     '1': '7 2 12 1 21 1 40 1 50 4 60 3 68 1 71 1 81 1',
     '2': '1 3 11 1 33 2 42 3 87 2'}
 ```
-
-File names are the same as for the TIF format, with the `.json` file format instead of `.tif`. Functions for converting between TIF and JSON formats, as well as between python strings and numpy ndarrays, can be found in the [bio3d_vision](https://github.com/bio3d-vision/bio3d_vision) package.
-
-
-
